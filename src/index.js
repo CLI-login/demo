@@ -1,8 +1,14 @@
 const { Command, flags } = require('@oclif/command');
+const open = require('open');
+
+
+const oauthAppUrl = 'https://test.com';
 
 class CliLoginDemoCommand extends Command {
   async run() {
-    this.log('hello demo');
+    this.log('Please login to the site opening in your browser with your GitHub credentials...');
+
+    open(oauthAppUrl);
   }
 }
 
