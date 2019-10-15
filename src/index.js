@@ -1,14 +1,31 @@
+/* eslint-disable class-methods-use-this */
 const { Command, flags } = require('@oclif/command');
-const open = require('open');
+const { cli } = require('cli-ux');
+const { createServer } = require('http');
+const stoppable = require('stoppable');
 
 
 const oauthAppUrl = 'https://test.com';
 
 class CliLoginDemoCommand extends Command {
   async run() {
-    this.log('Please login to the site opening in your browser with your GitHub credentials...');
+    cli.action.start('Please login to the site opening in your browser with your GitHub credentials');
 
-    open(oauthAppUrl);
+    await new Promise((resolve) => {
+      const server = stoppable(createServer((request, response) => {
+        // TODO: get access token from request
+
+        response.end('success');
+
+        server.stop(() => {
+          cli.action.stop('login successful');
+
+          resolve();
+        });
+      }));
+
+      server.listen(0, () => cli.open(`${oauthAppUrl}?port=${server.address().port}`));
+    });
   }
 }
 
