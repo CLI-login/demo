@@ -5,7 +5,9 @@ const { createServer } = require('http');
 const stoppable = require('stoppable');
 
 
-const oauthAppUrl = 'https://test.com';
+const { oauthLoginUrl } = require("@octokit/oauth-login-url");
+
+const OAUTH_CLIENT_ID = 'e201985403875db868be'
 
 class CliLoginDemoCommand extends Command {
   async run() {
