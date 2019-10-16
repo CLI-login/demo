@@ -1,0 +1,48 @@
+{
+  "name": "demo",
+  "description": "A minimal CLI app that authenticates using OAuth",
+  "version": "0.0.0",
+  "author": "Scott Davis @stdavis",
+  "bin": {
+    "demo": "./bin/run"
+  },
+  "bugs": "https://github.com/CLI-login/demo/issues",
+  "dependencies": {
+    "@oclif/command": "1.5.19",
+    "@oclif/config": "1.13.3",
+    "@oclif/plugin-help": "2.2.1",
+    "@octokit/oauth-login-url": "2.1.2",
+    "cli-ux": "5.3.2",
+    "stoppable": "1.1.0"
+  },
+  "devDependencies": {
+    "@oclif/test": "1.2.5",
+    "chai": "4.2.0",
+    "eslint": "5.16.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-plugin-import": "2.18.2",
+    "mocha": "5.2.0",
+    "nyc": "13.3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/src"
+  ],
+  "homepage": "https://github.com/CLI-login/demo",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "bin": "demo"
+  },
+  "repository": "CLI-login/demo",
+  "scripts": {
+    "posttest": "eslint .",
+    "test": "nyc mocha --forbid-only \"test/**/*.test.js\""
+  }
+}
