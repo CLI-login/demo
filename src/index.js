@@ -3,11 +3,10 @@ const { Command, flags } = require('@oclif/command');
 const { cli } = require('cli-ux');
 const { createServer } = require('http');
 const stoppable = require('stoppable');
+const { oauthLoginUrl } = require('@octokit/oauth-login-url');
 
 
-const { oauthLoginUrl } = require("@octokit/oauth-login-url");
-
-const OAUTH_CLIENT_ID = 'e201985403875db868be'
+const OAUTH_CLIENT_ID = 'e201985403875db868be';
 
 class CliLoginDemoCommand extends Command {
   async run() {
@@ -26,7 +25,13 @@ class CliLoginDemoCommand extends Command {
         });
       }));
 
-      server.listen(0, () => cli.open(`${oauthAppUrl}?port=${server.address().port}`));
+      server.listen(0, () => {
+        const { url } = oauthLoginUrl({
+          clientId: OAUTH_CLIENT_ID,
+          state: server.address().port,
+        });
+        cli.open(url);
+      });
     });
   }
 }
