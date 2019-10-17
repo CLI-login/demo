@@ -12,16 +12,22 @@ class CliLoginDemoCommand extends Command {
   async run() {
     cli.action.start('Please login to the site opening in your browser with your GitHub credentials');
 
-    await new Promise((resolve) => {
+    const token = await new Promise((resolve) => {
       const server = stoppable(createServer((request, response) => {
-        // TODO: get access token from request
+        response.setHeader('Access-Control-Allow-Origin', '*');
+        response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-        response.end('success');
-
-        server.stop(() => {
+        let body = '';
+        request.on('data', (chunk) => {
+          body += chunk.toString();
+        });
+        request.on('end', () => {
+          resolve(JSON.parse(body).token);
           cli.action.stop('login successful');
 
-          resolve();
+          response.end();
+          server.stop();
         });
       }));
 
@@ -33,6 +39,8 @@ class CliLoginDemoCommand extends Command {
         cli.open(url);
       });
     });
+
+    this.log('token', token);
   }
 }
 
